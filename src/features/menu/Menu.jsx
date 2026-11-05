@@ -1,7 +1,6 @@
-import { AppBar, Box, Button, IconButton, Modal, Toolbar, Typography, Dialog, DialogTitle, DialogContent, TextField, Stack, DialogActions } from "@mui/material";
-import StoreIcon from '@mui/icons-material/Store';
+import { AppBar, Box, Button, Toolbar, Typography, Dialog, DialogTitle, DialogContent, TextField, Stack, DialogActions } from "@mui/material";
 import { Link } from "react-router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 //import { useNavigate } from "react-router";
 
 export function Login(props) {
@@ -65,15 +64,17 @@ export default function Menu(props) {
                 <Toolbar sx={{ display: "flex", justifyContent: "space-between", pr: "10vh" }}>
 
                     <Box sx={{ display: "flex", flexDirection: "row" }}>
+                        <Button component={Link} to={"/"} color="inherit">
                         <Typography variant="h4" component="div" > Sistema vendas</Typography>
-                        {props.logado && <>
+                        </Button>
+                        {props.usuario && <>
                             <Button color="inherit" variant="text" size="large" component={Link} to={"/Clientes"}>Clientes</Button>
                             <Button color="inherit" variant="text" size="large" component={Link} to={"/Produtos"}>Produtos</Button>
                             <Button color="inherit" variant="text" size="large" component={Link} to={"/Vendas"}>Vendas</Button>
                         </>
                         }
                     </Box>
-                    {props.logado?<Button color="inherit" variant="text" size="large" onClick={props.logOut}>LogOut</Button>:
+                    {props.usuario?<Button color="inherit" variant="text" size="large" onClick={() => {props.logOut()}}>LogOut</Button>:
                     <Button color="inherit" variant="text" size="large" onClick={() => setShowLogin(true)}>Login</Button>}
 
                 </Toolbar>
