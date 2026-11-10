@@ -21,8 +21,8 @@ export function Login(props) {
                 <DialogContent>
 
                     <Stack>
-                        <TextField id="usuario" label="usuario" variant="standard" type="text" name="usuario" />
-                        <TextField id="senha" label="senha" variant="standard" type="password" name="senha" />
+                        <TextField id="usuario" label="usuario" variant="standard" type="text" name="usuario" required autoFocus/>
+                        <TextField id="senha" label="senha" variant="standard" type="password" name="senha" required/>
                     </Stack>
                 <Typography color="error">
                 {props.mensagemErro}
