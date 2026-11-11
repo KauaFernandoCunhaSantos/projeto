@@ -1,7 +1,23 @@
-import { Pagination, Table, TableBody, TableCell, TableFooter, TableHead, TableRow } from "@mui/material";
-
+import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Pagination, Table, TableBody, TableCell, TableFooter, TableHead, TableRow } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditSquareIcon from '@mui/icons-material/EditSquare';
+import { useState } from "react";
 export default function Tabela(props){
+    const [produtoDeletar, setProdutoDeletar] = useState(null)
     return<>
+    
+    {produtoDeletar&&<Dialog open >
+            <DialogTitle>Confirmação de exclusão</DialogTitle>
+            <DialogContent>
+                <DialogContentText>Tem certeza que quer excluir o produto {produtoDeletar.id} - {produtoDeletar.nome}?</DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                <Button color="error" onClick={()=>{props.onDeletar(produtoDeletar.id)
+                    setProdutoDeletar(null)
+                }}>Confirmar</Button>
+                <Button onClick={()=>setProdutoDeletar(null)}>Cancelar</Button>
+            </DialogActions>
+        </Dialog>}
         <Table>
             <TableHead>
                 <TableRow>
@@ -9,6 +25,7 @@ export default function Tabela(props){
                     <TableCell>Nome</TableCell>
                     <TableCell>Valor</TableCell>
                     <TableCell>Estoque</TableCell>
+                    <TableCell>Ação</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -17,6 +34,14 @@ export default function Tabela(props){
                     <TableCell>{produto.nome}</TableCell>
                     <TableCell>{produto.valor}</TableCell>
                     <TableCell>{produto.estoque}</TableCell>
+                    <TableCell>
+                        <IconButton>
+                            <EditSquareIcon/>
+                        </IconButton>
+                        <IconButton onClick={()=>setProdutoDeletar(produto)} color="error">
+                              <DeleteIcon/>
+                        </IconButton>
+                    </TableCell>
                 </TableRow>)}
             </TableBody>
             
