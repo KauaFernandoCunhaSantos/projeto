@@ -2,12 +2,15 @@ import { useEffect, useState } from "react"
 import api from "../../services/api"
 import { Box, Button, LinearProgress, Stack, TextField } from "@mui/material"
 import Tabela from "./tabela"
+import CadastroEditar from "./cadastroEditar"
 
 export default function Produtos() {
     const [produtos, setProdutos] = useState([])
     const [totalPaginas, setTotalPaginas] = useState(1)
     const [pagina, setPagina] = useState(1)
     const [produtoPesquisar, setProdutoPesquisar] = useState(null)
+    const [showCadastroEditar, setShowCadastroEditar] = useState(false)
+    const [produtoEditar, setProdutoEditar] = useState(false)
     async function BuscarBanco() {
         let params = { _page: pagina, _per_page: 5 }
         if(produtoPesquisar){
@@ -38,6 +41,7 @@ export default function Produtos() {
         setProdutoPesquisar(appData.get("produto"))
         
     }
+
     //excluir
     async function deletar(id){
         try{
@@ -50,10 +54,45 @@ export default function Produtos() {
             BuscarBanco()
         }
     }
+    //enviar cadastro ou editar
+    async function enviar(produto){
+        //enviar
+        try{if(produto.id){
+            console.log("tem id")
+            let retorno = await api.put(`/produtos/${produto.id}`, produto)
+           
+        }else{
+            let retorno = await api.post(`/produtos`, produto)
+            console.log("não tem id")
+        }
+        }catch(erro)
+        {
+            console.log(erro.nome)
+        }
+        finally{
+            setProdutoEditar(null)
+            setShowCadastroEditar(false)
+            BuscarBanco()
+        }
+    }
+
+    //iniciar edição
+    async function iniciarEdicao(id){
+        let retorno = await api.get(`/produtos/${id}`)
+        setProdutoEditar(retorno.data)
+        setShowCadastroEditar(true)
+        
+    }
     return <>
+    {showCadastroEditar&&<CadastroEditar onCancelar={()=>{setShowCadastroEditar(false)
+                                                        setProdutoEditar(null)
+                                                    }}
+                                        onEnviar={enviar}
+                                        produto={produtoEditar}
+        />}
     <Stack direction={"row"} sx={{justifyContent:"space-between", alignItems:"end"}}>
         <Stack><h1>produtos</h1>
-        <Button>Adicionar Produto</Button>
+        <Button onClick={()=>setShowCadastroEditar(true)}>Adicionar Produto</Button>
         </Stack>
         <form action={onPesquisar}>
         <TextField label="Pesquisar" variant="standard" name="produto"/>
@@ -64,6 +103,7 @@ export default function Produtos() {
                 onMudarPagina={mudarPagina}
                 totalPaginas={totalPaginas}
                 onDeletar={deletar}
+                onEditar={iniciarEdicao}
         />
     </>
 }

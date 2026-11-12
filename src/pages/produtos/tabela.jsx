@@ -36,7 +36,7 @@ export default function Tabela(props){
                     <TableCell>{produto.estoque}</TableCell>
                     <TableCell>
                         <IconButton>
-                            <EditSquareIcon/>
+                            <EditSquareIcon onClick={()=>props.onEditar(produto.id)} color="info"/>
                         </IconButton>
                         <IconButton onClick={()=>setProdutoDeletar(produto)} color="error">
                               <DeleteIcon/>
