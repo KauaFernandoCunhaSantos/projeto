@@ -74,7 +74,7 @@ export default function Menu(props) {
                         </>
                         }
                     </Box>
-                    {props.usuario?<Button color="inherit" variant="text" size="large" onClick={() => {props.logOut()}}>LogOut</Button>:
+                    {props.usuario?<Button color="inherit" variant="text" size="large" onClick={() => {props.logOut()}}>Sair</Button>:
                     <Button color="inherit" variant="text" size="large" onClick={() => setShowLogin(true)}>Login</Button>}
 
                 </Toolbar>
